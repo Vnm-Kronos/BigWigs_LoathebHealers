@@ -167,7 +167,6 @@ function module:OnEnable()
 		self:Print(string.format(L["Your announce channel is set to %s."], healerChannel))
 	end
 	healerList = {}
-	self:ShowTablet()
 end
 
 -- called after module is enabled and after each wipe
@@ -178,6 +177,7 @@ function module:OnSetup()
 			v.healbotDebuffTimer = nil
 		end
 	end
+	self:ShowTablet()
 end
 
 -- called after boss is engaged
