@@ -1,0 +1,16 @@
+## Interface: 11200
+
+## Title: Big Wigs |cffff0000+|r|cffffffffLoatheb Healers|r
+## Notes: Healing rotation addon for Loatheb.
+## Author: Vnm
+## X-Build: $Revision: 20001 $
+## X-ReleaseDate: $Date: 2017-10-15 13:10:00 +0300 (Sun, 15 Oct 2017) $
+## X-Category: Raid
+## LoadOnDemand: 1
+## X-BigWigs-LoadInZone: Naxxramas
+## X-Credits: <CWDG>月色狼影， flyflame, Rabbit
+
+## Dependencies: BigWigs
+## OptionalDeps: Ace2, TabletLib, DewdropLib, GratuityLib
+
+BigWigs_LoathebHealers.lua
