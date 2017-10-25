@@ -110,6 +110,7 @@ local healerList = nil
 
 local syncName = {
 	debuffGained = "BWLHDebuffGained"..module.revision,
+	rotation = "BWLHRotation"..module.revision,
 }
 
 local icon = {
@@ -146,6 +147,7 @@ function module:OnRegister()
 				desc = L["healerrotation_desc"],
 				set = function(v)
 				if IsRaidOfficer() or IsRaidLeader() then
+					self:Sync(syncName.rotation.." "..v)
 					SendChatMessage(string.format(L["[BWLH] Healing rotation: %s."], v), "RAID", nil, nil)
 				end
 				end,
@@ -165,8 +167,7 @@ function module:OnEnable()
 		self:Print(string.format(L["Your announce channel is set to %s."], healerChannel))
 	end
 	healerList = {}
-	self:RegisterEvent("CHAT_MSG_RAID")
-	self:RegisterEvent("CHAT_MSG_RAID_LEADER", "CHAT_MSG_RAID")
+	self:ShowTablet()
 end
 
 -- called after module is enabled and after each wipe
@@ -177,7 +178,6 @@ function module:OnSetup()
 			v.healbotDebuffTimer = nil
 		end
 	end
-	self:ShowTablet()
 end
 
 -- called after boss is engaged
@@ -189,24 +189,15 @@ end
 -- called after boss is disengaged (wipe(retreat) or victory)
 function module:OnDisgengage()
 	roster = nil
-	self:HideTablet()
 end
 
 function module:OnDisable()
+	self:HideTablet()
 end
 
 ------------------------------
 --      Event Handlers	    --
 ------------------------------
-
-function module:CHAT_MSG_RAID(msg, author)
-	local_,_,rotation = string.find(msg, L["%[BWLH%] Healing rotation: (.*)."])
-	if rotation then
-		self:Print(string.format(L["Healing rotation broadcasted by %s."], author))
-		local healers = self:strsplit(",%s*", rotation)
-		self:CreateHealerList(healers)
-	end
-end
 
 function module:PLAYER_AURAS_CHANGED(msg)
 	local found = false
@@ -243,6 +234,10 @@ end
 function module:BigWigs_RecvSync(sync, rest, nick)
 	if string.find(sync, syncName.debuffGained) and rest then
 		self:UpdateList(rest)
+	elseif sync == syncName.rotation and rest then
+		local healers = self:strsplit(",%s*", rest)
+		self:CreateHealerList(healers)
+		self:Print(string.format(L["Healing rotation broadcasted by %s."], nick))
 	end
 end
 
@@ -380,6 +375,7 @@ function module:PrintRotation()
 	for n, u in pairs(healerList) do
 		healers = healers..", "..u.name
 	end
+	self:Sync(syncName.rotation.." "..healers)
 	SendChatMessage(string.format(L["[BWLH] Healing rotation: %s."], healers), "RAID", nil, nil)
 end
 
