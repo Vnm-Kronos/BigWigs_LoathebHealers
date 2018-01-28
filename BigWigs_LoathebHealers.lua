@@ -14,6 +14,7 @@ module.synctoken = myname
 module.zonename = AceLibrary("Babble-Zone-2.2")["Naxxramas"]
 module.translatedName = boss
 module.external = true
+module.trashMod = true
 
 ----------------------------
 --      Localization      --
