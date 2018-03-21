@@ -4,7 +4,7 @@ The list will display every healer's timer left on the debuff, and the raid lead
 Every healer needs to get this addon for it to track their debuff timer.
 
 How to set up an order:
-/bwhs rotation Healer1, Healer2, Healer3, Healer4
+/bwlh rotation Healer1, Healer2, Healer3, Healer4
 
 How to set up a healerchannel:
-/bwhs setchannel ChannelName
+/bwlh setchannel ChannelName
